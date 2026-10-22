@@ -227,10 +227,14 @@ print("Logistic Regression Q2 - Feature coefficients:")
 for feature, coefficient in zip(feature_names, coefficients):
     print(f"{feature}: {coefficient:.4f}")
 
+
 # Negative coefficients push predictions toward class 0 (skip),
 # while positive coefficients push predictions toward class 1 (good).
-# After checking the output, identify the most negative feature and
-# consider whether its effect matches your intuition about running weather.
+# wind_speed_10m_max has the most negative coefficient (-2.4438).
+# This means higher wind speeds push predictions toward "skip",
+# holding the other weather features constant.
+# This makes sense because strong winds can make running less comfortable.
+
 
 
 # Q3
@@ -282,36 +286,6 @@ print("False negatives:", false_negatives)
 # encourage someone to run in unsuitable weather day.
 
 
-# --- Evaluation ---
-
-# Q1
-
-cm = confusion_matrix(y_test, logreg_pred, labels=[0, 1])
-
-print("Evaluation Q1 - Confusion matrix:")
-print(cm)
-
-display = ConfusionMatrixDisplay(
-    confusion_matrix=cm,
-    display_labels=["skip", "good"],
-)
-
-display.plot()
-plt.title("Logistic Regression Confusion Matrix")
-plt.tight_layout()
-plt.savefig("outputs/logreg_confusion_matrix.png")
-plt.show()
-
-false_positives = cm[0, 1]
-false_negatives = cm[1, 0]
-
-print("False positives:", false_positives)
-print("False negatives:", false_negatives)
-
-# A false positive means predicting good when the day is actually skip.
-# A false negative means predicting skip when the day is actually good.
-# For a running app, false positives may be more concerning if they
-# encourage someone to run in unsuitable weather.
 
 # --- joblib ---
 
@@ -330,3 +304,9 @@ print("Predictions match.")
 
 # If I saved only LogisticRegression without the scaler, raw data would
 # not be scaled as during training, which could change the predictions.
+
+
+# wind_speed_10m_max has the most negative coefficient (-2.4438).
+# Higher wind speeds push predictions toward "skip",
+# when the other weather features stay the same.
+# This makes sense because strong winds can make running less comfortable.

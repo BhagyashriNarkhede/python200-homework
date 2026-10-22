@@ -128,6 +128,9 @@ X_train, X_test, y_train, y_test = train_test_split(
     stratify=y,
 )
 
+# About 34.79% of days were labeled as good running days.
+# This seems reasonable because the rules exclude days that are
+# too cold, too hot, rainy, or very windy.
 
 # --- Task 3: Build and Evaluate a KNN Classifier ---
 
@@ -237,7 +240,11 @@ print("\nLogistic Regression feature coefficients:")
 for feature, coefficient in zip(features, coefficients):
     print(f"{feature}: {coefficient:.4f}")
 
-
+# Interpretation:
+# precipitation_sum has the most negative coefficient (-2.5428).
+# More precipitation pushes the prediction toward "skip",
+# holding the other weather features constant.
+# This makes sense because rainy weather is less suitable for running.
     
 # --- Extension A: Add Season ---
 
