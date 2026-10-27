@@ -72,12 +72,12 @@ class TemperatureAlert:
         self.threshold = threshold
 
     def breaches(self, thermometer):
-        hottest = thermometer.hottest()
 
-        if hottest is None:
-            return False
-
-        return hottest > self.threshold
+        return [
+        reading
+        for reading in thermometer.readings
+        if reading > self.threshold
+    ]
 
 
 alert1 = TemperatureAlert(23.0)
@@ -98,13 +98,15 @@ from dataclasses import dataclass
 @dataclass(frozen=True)
 class Station:
     """Represent a weather station."""
-
+    station_id: str
     name: str
-    region: str
+    latitude: float
+    longitude: float
+    elevation: float
 
 
-station1 = Station("Cary", "North Carolina")
-station2 = Station("Cary", "North Carolina")
+station1 = Station("STA001", "Cary", 35.7915, -78.7811, 120.0)
+station2 = Station("STA001", "Cary", 35.7915, -78.7811, 120.0)
 
 print("Station 1:", station1)
 print("Station 2:", station2)
@@ -121,7 +123,9 @@ except FrozenInstanceError as error:
     print("FrozenInstanceError:", error)
 
 
-station3 = Station("Raleigh", "North Carolina")
+#station3 = Station("Raleigh", "North Carolina")
+
+station3 = Station("STA002", "Raleigh", 35.7796, -78.6382, 96.0)
 
 stations = {station1, station2, station3}
 
@@ -151,23 +155,28 @@ class StationBatch:
         self.stations.append(station)
 
     def highest(self) -> Station | None:
-        """Return the station with the highest name, or None if empty."""
+        """Return the station with the greatest elevation, or None if empty."""
         if not self.stations:
-            return None
-
-        return max(self.stations, key=lambda station: station.name)
-
+             return None
+        return max(self.stations, key=lambda station: station.elevation)
 
 batch = StationBatch("North Carolina")
-
-batch.add(station1)
-batch.add(station3)
+batch.add(Station("STA001", "Cary", 35.7915, -78.7811, 120.0))
+batch.add(Station("STA002", "Raleigh", 35.7796, -78.6382, 96.0))
 
 print("Station batch:", batch)
 print("Highest station:", batch.highest())
+print("Highest empty batch:", StationBatch("North Carolina").highest())
+#batch = StationBatch("North Carolina")
 
-empty_batch = StationBatch("Empty Region")
-print("Highest empty batch:", empty_batch.highest())
+#batch.add(station1)
+#batch.add(station3)
+
+#print("Station batch:", batch)
+#print("Highest station:", batch.highest())
+
+#empty_batch = StationBatch("Empty Region")
+#print("Highest empty batch:", empty_batch.highest())
 
 # A mutable default such as stations: list[Station] = [] should not be used.
 # default_factory=list creates a new empty list for each StationBatch object.
@@ -249,6 +258,9 @@ coerced_reading = Reading(
 
 print("Coerced temperature:", coerced_reading.temperature_c)
 print("Coerced humidity:", coerced_reading.humidity)
+print("Coerced Reading object:", coerced_reading)
+print("Temperature type:", type(coerced_reading.temperature_c))
+print("Humidity type:", type(coerced_reading.humidity))
 
 # Pydantic can safely convert compatible input types, such as the string
 # "21.5" to a float and the integer 40 to a float.
