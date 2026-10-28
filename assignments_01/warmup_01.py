@@ -147,6 +147,12 @@ class StationBatch:
     """Store a batch of weather stations for a region."""
 
     region: str
+
+     # First, I tried: stations: list[Station] = []
+    # Python raised this error:
+    # ValueError: mutable default <class 'list'> for field stations is not allowed: use default_factory
+    # Fix: field(default_factory=list) creates a new list for each StationBatch object.
+
     stations: list[Station] = field(default_factory=list)
     #stations: list[Station] = []
 
@@ -178,8 +184,6 @@ print("Highest empty batch:", StationBatch("North Carolina").highest())
 #empty_batch = StationBatch("Empty Region")
 #print("Highest empty batch:", empty_batch.highest())
 
-# A mutable default such as stations: list[Station] = [] should not be used.
-# default_factory=list creates a new empty list for each StationBatch object.
 
 # --- Pydantic ---
 # Q1
