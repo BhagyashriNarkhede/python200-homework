@@ -1,0 +1,15 @@
+{
+    "city": "Morrisville, North Carolina",
+    "python_version": "3.14.6",
+    "scikit_learn_version": "1.9.1",
+    "features": [
+        "temperature_2m_max",
+        "temperature_2m_min",
+        "precipitation_sum",
+        "wind_speed_10m_max"
+    ],
+    "label_rule": "good=1 when maximum temperature is between 7 and 26 degrees C (inclusive), minimum temperature is at least 0 degrees C, precipitation is under 3 mm, and maximum wind speed is under 30 km/h; otherwise skip=0",
+    "selected_model": "KNN",
+    "test_accuracy": 0.9041095890410958,
+    "test_f1": 0.8771929824561403
+}
