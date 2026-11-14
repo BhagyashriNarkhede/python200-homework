@@ -120,8 +120,11 @@ for question in questions:
     print("\n" + "-" * 60)
 
 # Reflection:
-# I will review the five answers to determine whether the assistant
-# provided accurate information from the Groundwork documents.
+# The assistant provided answers to all five questions using the retrieved Groundwork Coffee documents. The answers appeared confident and relevant to the questions asked. The retrieved
+# source documents helped connect the answers to the original information. I was interested to see how the assistant could
+# answer questions about different topics, including business hours, dairy-free options, the loyalty program, company history, and catering services. Overall, the results showed that the
+# RAG pipeline can retrieve relevant information and generate useful answers based on the provided documents.
+# I will review the five answers to determine whether the assistant provided accurate information from the Groundwork documents.
 # I will also check whether the retrieved source documents match
 # the questions being asked.
 
