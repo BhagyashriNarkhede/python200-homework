@@ -336,10 +336,19 @@ for question in questions:
         print("First 150 characters:")
         print(chunk_text[:150])
 
-# Observation:
-# Both questions returned relevant answers from the BrightLeaf PDFs.
-# The retrieved source nodes included the employee benefits and security
-# policy information. The highest similarity scores were 0.7556 and 0.6569.
+# Question 1: Employee benefits
+# The first retrieved chunk was relevant and came from the employee
+# benefits document. However, the second and third chunks were about
+# partnerships and the company mission, which were less relevant.
+# The model gave a confident and detailed answer. I was surprised that
+# unrelated documents were also retrieved.
+
+# Question 2: Security policies
+# The first retrieved chunk was relevant and came from the security
+# policy document. However, the other chunks were about employee
+# benefits and partnerships, which were less relevant.
+# The model gave a confident and specific answer. I was surprised that
+# the retrieval included documents unrelated to security.
 
 # --- LlamaIndex Question 2 ---
 
@@ -417,6 +426,25 @@ for i, source in enumerate(response.source_nodes, start=1):
 
     print("Full Chunk Text:")
     print(source.node.get_content())
+
+# # Question 3: Challenge query
+#
+# Expectation:
+# I expected this question to be difficult because I thought the exact
+# date of BrightLeaf's next European product launch might not be
+# available in the provided documents.
+
+# Actual result:
+# The system retrieved partnership, earnings, and mission statement
+# information, but none of the retrieved chunks provided the exact
+# European product launch date. The model correctly stated that the
+# date was not specified instead of inventing one.
+
+# Proposed improvement:
+# I would add a similarity score threshold and a fallback message.
+# If the retrieved chunks do not meet the threshold, the system could
+# explain that it does not have enough relevant information to answer.
+# This could help reduce unsupported answers.
 # --- LlamaIndex Question 4 ---
 
 print("\n========== LlamaIndex Question 4 ==========")
